@@ -29,7 +29,7 @@ public class Birds{
     }
     
     public void fly(){
-        if(x <= 1070){
+        if(x <= 800){
             x += vx;
         }
         if(y <= 640){

@@ -6,6 +6,8 @@
 package pers.xiang.birdsshot;
 
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,7 +32,6 @@ public class BirdsShotGame extends JFrame{
     public BirdsShotGame(){
         
         bg = new BackgroundPanel();
-        //bird = new Birds(0, 0, 70, 50, 0);
         
         //初始化界面
         this.setLayout(null);
@@ -45,6 +46,8 @@ public class BirdsShotGame extends JFrame{
         this.state = START;
         this.add(bg);
         this.setVisible(true);
+        
+        
     }
     
     /**
