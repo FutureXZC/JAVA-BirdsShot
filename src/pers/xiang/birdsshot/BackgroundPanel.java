@@ -12,8 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Random;
-import java.util.Timer;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,20 +21,20 @@ import javax.swing.JPanel;
  *
  * @author 祥
  */
-public class BackgroundPanel extends JPanel implements Runnable{
+public class BackgroundPanel extends JPanel{
     
     public static int score = 0;//分数
     public static int bullets = 0;//子弹数
-    
-    private static Timer timer;//计时器
+
     private static int INTERVAL = 50;//时间间隔（ms)
-    private static int birdNum = 0;//鸟的数量
+    private static int birdNum = 5;//鸟的数量
     private static int mx = 0;//鼠标点击处的横坐标
     private static int my = 0;//鼠标点击处的纵坐标
-    
+
     public static Birds bird;//鸟
+    //public static ArrayList<Birds> birdsList = new ArrayList<Birds>();  
     public static JButton start;//开始按钮
-    
+
     private int state;//游戏的当前状态
     private static final int START = 0;//开启游戏
     private static final int RUNNING = 1;//正在游戏
@@ -58,6 +57,11 @@ public class BackgroundPanel extends JPanel implements Runnable{
         
         state = START;//开启游戏
         
+//        for(int i = 1; i <= birdNum; i++){
+//            Birds b = new Birds(i);
+//            birdsList.add(b);
+//        }
+        
 //        开始按钮的点击事件
         start.addActionListener(new ActionListener() {
             @Override
@@ -67,7 +71,8 @@ public class BackgroundPanel extends JPanel implements Runnable{
                 setBullets(10);//初始化子弹数目
                 setScore(0);//重置分数为0分
                 bird = new Birds(0);//随机生成飞鸟的飞行速度
-                //System.out.println("Vx = " + bird.getVx() + "," + "Vy = " + bird.getVy());//在控制台输出飞鸟的速度
+                System.out.println("Vx = " + bird.getVx() + "," + "Vy = " + bird.getVy() + ", x = " + bird.getX() + ", y = " + bird.getY());//在控制台输出飞鸟的速度
+                //System.out.println(birdsList.get(2));
                 addBirds();
                 repaint();
             }
@@ -108,45 +113,24 @@ public class BackgroundPanel extends JPanel implements Runnable{
         g.drawString("得分: " + score + "  " + "剩余子弹：" + bullets, 690, 50);
 
         if(state == RUNNING){
-            g.drawImage(bird.getImage(), bird.getX(), bird.getY(), this);
+            try {g.drawImage(bird.getImage(), bird.getX(), bird.getY(), this);
+            } catch (Exception e){}
         }
         if(state == GAME_OVER){
-            g.drawImage(new ImageIcon("src/resources/gameover.png").getImage(), 120, 150, this);
+            try {g.drawImage(new ImageIcon("src/resources/gameover.png").getImage(), 120, 150, this);
+            } catch (Exception e){}
         }
-    }
-    
-//    启动线程
-    @Override
-    public void run() {
-        try{
-            while(true){   
-                if(!bird.getIsShot() && bullets > 0 && bird.getX() <= this.getWidth()){
-                    //飞鸟正常运动
-                    bird.fly();
-                    repaint();
-                    Thread.sleep(INTERVAL);    
-                }else{
-                    //Game over界面
-                    bird.setX(-70);
-                    bird.setY(-50);
-                    state = GAME_OVER;
-                    repaint();
-                    start.setVisible(true);
-                    break;
-                }
-            }
-        }catch ( InterruptedException e ){ }
     }
     
 //    创建飞鸟线程
     public void addBirds() {
-//        for(int i = 0; i < 10; i++){
-            
-            Thread t = new Thread(this);
+        for(int i = 0; i < birdNum; i++){
+            Flying f = new Flying(bird, bullets, this);
+            Thread t = new Thread(f);
             t.start();
             try{Thread.sleep(INTERVAL);
             }catch ( InterruptedException e ){}
-//        }  
+       }  
     }
     
 //    相关参数的获取
@@ -164,5 +148,17 @@ public class BackgroundPanel extends JPanel implements Runnable{
     
     public int getBullets(){
         return bullets;
+    }
+    
+    public int getState(){
+        return state;
+    }
+    
+    public void setState(int s){
+        state = s;
+    }
+    
+    public int getBirdNum(){
+        return birdNum;
     }
 }

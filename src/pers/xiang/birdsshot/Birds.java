@@ -23,10 +23,10 @@ public class Birds{
 //    构造函数，初始化参数
     public Birds(int id){
         Random rand = new Random();
-        this.x = 0;
+        this.x = -70;
         this.y = rand.nextInt(400)+1;
-        this.vx = rand.nextInt(30)+1;
-        this.vy = rand.nextInt(8)+1;
+        this.vx = rand.nextInt(20)+5;
+        this.vy = rand.nextInt(16)+8;
         this.birdsImg = new ImageIcon("src/resources/bird.png").getImage();
         this.id = id;
     }
