@@ -5,8 +5,11 @@
  */
 package birdsshot;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -15,16 +18,18 @@ import javax.swing.JPanel;
  */
 public class BackgroundPanel extends JPanel{
     
-    Image bg;  
+//    Image bg;  
+    ImageIcon bg;
     
-    public BackgroundPanel(Image bg){  
-        this.bg = bg;  
+    public BackgroundPanel(ImageIcon bg){  
+        this.bg = bg;
         this.setOpaque(true);
-        this.setBounds(0, 0, 1000, 600);
+        this.setBounds(0, 0, 1000, 640);
     }  
    
     public void paintComponent(Graphics g){  
         super.paintComponents(g);  
-        g.drawImage(bg,0,0,this.getWidth(),this.getHeight(),this);
+        bg.paintIcon(this, g,0, 0);
+        //g.drawImage(bg,0,0,this.getWidth(),this.getHeight(),this);
     }
 }

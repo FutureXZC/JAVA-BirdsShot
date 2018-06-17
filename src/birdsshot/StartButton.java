@@ -13,11 +13,8 @@ import javax.swing.JButton;
  * @author 祥
  */
 public class StartButton extends JButton{
-    
-    ImageIcon im;
-    
+   
     public StartButton(ImageIcon im){
-        this.im = im;
         this.setBounds(410, 260, 168, 168);
         this.setBorderPainted(false);
         this.setIcon(im);
