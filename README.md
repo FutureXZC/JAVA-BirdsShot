@@ -1,4 +1,4 @@
-# JAVA-BirdsShot
+# A JAVA BirdsShot Game
 A Java homework in 2018/6.<br>
 Using Java.Swing.<br>
 All the pictures are from the Internet.<br>
