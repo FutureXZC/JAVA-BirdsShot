@@ -6,6 +6,7 @@
 package pers.xiang.birdsshot;
 
 import java.awt.Image;
+import java.util.Random;
 import javax.swing.ImageIcon;
 
 /**
@@ -20,11 +21,12 @@ public class Birds{
     private boolean isShot = false;
     
 //    构造函数，初始化参数
-    public Birds(int x, int y, int vx, int vy, int id){
-        this.x = x;
-        this.y = y;
-        this.vx = vx;
-        this.vy = vy;
+    public Birds(int id){
+        Random rand = new Random();
+        this.x = 0;
+        this.y = rand.nextInt(400)+1;
+        this.vx = rand.nextInt(30)+1;
+        this.vy = rand.nextInt(8)+1;
         this.birdsImg = new ImageIcon("src/resources/bird.png").getImage();
         this.id = id;
     }

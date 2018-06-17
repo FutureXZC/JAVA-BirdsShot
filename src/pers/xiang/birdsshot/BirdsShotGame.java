@@ -6,8 +6,6 @@
 package pers.xiang.birdsshot;
 
 import java.awt.EventQueue;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -37,9 +35,7 @@ public class BirdsShotGame extends JFrame{
         this.setIconImage(new ImageIcon("src/resources/icon.png").getImage());
         
         this.add(bg);
-        this.setVisible(true);
-        
-        
+        this.setVisible(true);        
     }
     
     /**

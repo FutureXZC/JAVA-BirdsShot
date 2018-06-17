@@ -5,6 +5,7 @@
  */
 package pers.xiang.birdsshot;
 
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -52,6 +53,7 @@ public class BackgroundPanel extends JPanel implements Runnable{
         start.setBounds(410, 260, 168, 168);
         start.setBorderPainted(false);
         start.setIcon(new ImageIcon("src/resources/start.png"));
+        start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.add(start); 
         
         state = START;//开启游戏
@@ -61,12 +63,11 @@ public class BackgroundPanel extends JPanel implements Runnable{
             @Override
             public void actionPerformed(ActionEvent e) {
                 state = RUNNING;
-                remove(start);
+                start.setVisible(false);
                 setBullets(10);//初始化子弹数目
                 setScore(0);//重置分数为0分
-                Random rand = new Random();
-                bird = new Birds(0, 300, 10, 5, 0);//随机生成飞鸟的飞行速度
-                System.out.println("Vx = " + bird.getVx() + "," + "Vy = " + bird.getVy());//在控制台输出飞鸟的速度
+                bird = new Birds(0);//随机生成飞鸟的飞行速度
+                //System.out.println("Vx = " + bird.getVx() + "," + "Vy = " + bird.getVy());//在控制台输出飞鸟的速度
                 addBirds();
                 repaint();
             }
@@ -91,6 +92,7 @@ public class BackgroundPanel extends JPanel implements Runnable{
                             score++;
                             bird.setIsShot(true);
                         }
+                        System.out.println("mx = " + mx + "," + "my = " + my);
                     }
                 }
             }
@@ -98,7 +100,7 @@ public class BackgroundPanel extends JPanel implements Runnable{
     }
     
 //    绘制背景、记分板、飞鸟、GAMEOVER图标
-    public void paint(Graphics g){
+    public void paintComponent(Graphics g){
         super.paintComponent(g);
         
         g.drawImage((new ImageIcon("src/resources/background.jpg")).getImage(), 0, 0, this);
@@ -117,8 +119,8 @@ public class BackgroundPanel extends JPanel implements Runnable{
     @Override
     public void run() {
         try{
-            while(bird.getX() <= this.getWidth()){   
-                if(!bird.getIsShot() && bullets > 0){
+            while(true){   
+                if(!bird.getIsShot() && bullets > 0 && bird.getX() <= this.getWidth()){
                     //飞鸟正常运动
                     bird.fly();
                     repaint();
@@ -129,7 +131,7 @@ public class BackgroundPanel extends JPanel implements Runnable{
                     bird.setY(-50);
                     state = GAME_OVER;
                     repaint();
-                    add(start);
+                    start.setVisible(true);
                     break;
                 }
             }
@@ -138,11 +140,13 @@ public class BackgroundPanel extends JPanel implements Runnable{
     
 //    创建飞鸟线程
     public void addBirds() {
-        
+//        for(int i = 0; i < 10; i++){
+            
             Thread t = new Thread(this);
             t.start();
             try{Thread.sleep(INTERVAL);
             }catch ( InterruptedException e ){}
+//        }  
     }
     
 //    相关参数的获取
