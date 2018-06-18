@@ -12,17 +12,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
  * @author 祥
  */
 public class BackgroundPanel extends JPanel{
-    
+
+    public static JButton start;//开始按钮    
     public static int score = 0;//分数
     public static int bullets = 0;//子弹数
 
@@ -31,15 +33,13 @@ public class BackgroundPanel extends JPanel{
     private static int mx = 0;//鼠标点击处的横坐标
     private static int my = 0;//鼠标点击处的纵坐标
 
-    public static Birds bird;//鸟
-    //public static ArrayList<Birds> birdsList = new ArrayList<Birds>();  
-    public static JButton start;//开始按钮
-
+    private List<Birds> birdsList = new ArrayList<Birds>();
+    private static int BirdsIndex = 0;//飞鸟数组的索引
+    
     private int state;//游戏的当前状态
     private static final int START = 0;//开启游戏
     private static final int RUNNING = 1;//正在游戏
-    private static final int PAUSE = 2;//暂停游戏
-    private static final int GAME_OVER = 3;//游戏失败
+    private static final int GAME_OVER = 2;//游戏失败
     
     public BackgroundPanel(){
   
@@ -57,24 +57,24 @@ public class BackgroundPanel extends JPanel{
         
         state = START;//开启游戏
         
-//        for(int i = 1; i <= birdNum; i++){
-//            Birds b = new Birds(i);
-//            birdsList.add(b);
-//        }
-        
 //        开始按钮的点击事件
         start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 state = RUNNING;
                 start.setVisible(false);
-                setBullets(10);//初始化子弹数目
-                setScore(0);//重置分数为0分
-                bird = new Birds(0);//随机生成飞鸟的飞行速度
-                System.out.println("Vx = " + bird.getVx() + "," + "Vy = " + bird.getVy() + ", x = " + bird.getX() + ", y = " + bird.getY());//在控制台输出飞鸟的速度
-                //System.out.println(birdsList.get(2));
+                bullets = 10;//初始化子弹数目
+                score = 0;//重置分数为0分
+                birdNum = 5;//剩余飞鸟为5只
+                BirdsIndex = 0;//从第一只开始飞
+                for(int i = 0; i < birdNum; i++){
+                    Birds b = new Birds(i);
+                    birdsList.add(b);
+                    System.out.println(birdsList.get(i) + ".yyy = " + birdsList.get(i).getY() + ".xxxx" + birdsList.get(i).getVx());
+                }
                 addBirds();
-                repaint();
+//                System.out.println("Vx = " + bird.getVx() + "," + "Vy = " + bird.getVy() + ", x = " + bird.getX() + ", y = " + bird.getY());//在控制台输出飞鸟的速度
+//                System.out.println("Vx = " + birdsList.get(BirdsIndex).getVx() + "," + "Vy = " + birdsList.get(BirdsIndex).getVy() + ", x = " + birdsList.get(BirdsIndex).getX() + ", y = " + birdsList.get(BirdsIndex).getY());//在控制台输出飞鸟的速度
             }
         });
         
@@ -91,13 +91,14 @@ public class BackgroundPanel extends JPanel{
                         mx = e.getX();
                         my = e.getY();
 //                        飞鸟的位置的范围
-                        int lx = bird.getX(),rx = bird.getX() + 70;
-                        int ty = bird.getY(),by = bird.getY() + 50;
-                        if(mx >= lx && mx <= rx && my >= ty && my <= by && !bird.getIsShot()){
+                        Birds thisBirds = birdsList.get(BirdsIndex);
+                        int lx = thisBirds.getX(),rx = thisBirds.getX() + 70;
+                        int ty = thisBirds.getY(),by = thisBirds.getY() + 50;
+                        if(mx >= lx && mx <= rx && my >= ty && my <= by && !thisBirds.getIsShot()){
                             score++;
-                            bird.setIsShot(true);
+                            birdsList.get(BirdsIndex).setIsShot(true);
                         }
-                        System.out.println("mx = " + mx + "," + "my = " + my);
+                        System.out.println("mx = " + mx + "," + "my = " + my + ", isShot = " + thisBirds.getIsShot());
                     }
                 }
             }
@@ -111,26 +112,32 @@ public class BackgroundPanel extends JPanel{
         g.drawImage((new ImageIcon("src/resources/background.jpg")).getImage(), 0, 0, this);
         g.setFont(new Font("Microsoft YaHei", Font.BOLD, 25));
         g.drawString("得分: " + score + "  " + "剩余子弹：" + bullets, 690, 50);
-
+        
         if(state == RUNNING){
-            try {g.drawImage(bird.getImage(), bird.getX(), bird.getY(), this);
+            try {
+                Birds thisBirds = birdsList.get(BirdsIndex);
+                g.drawImage(thisBirds.getImage(), birdsList.get(BirdsIndex).getX(), birdsList.get(BirdsIndex).getY(), this);
+//                System.out.println("Vx = " + thisBirds.getVx() + "," + "Vy = " + thisBirds.getVy() + ", x = " + thisBirds.getX() + ", y = " + thisBirds.getY());//在控制台输出飞鸟的速度
             } catch (Exception e){}
         }
         if(state == GAME_OVER){
             try {g.drawImage(new ImageIcon("src/resources/gameover.png").getImage(), 120, 150, this);
+                System.out.println("00000000000000000");
             } catch (Exception e){}
         }
     }
     
 //    创建飞鸟线程
     public void addBirds() {
-        for(int i = 0; i < birdNum; i++){
-            Flying f = new Flying(bird, bullets, this);
+        
+        System.out.println(birdsList);
+//        for(int i = 0; i < birdNum; i++){
+            Flying f = new Flying(birdsList, bullets, this);
             Thread t = new Thread(f);
             t.start();
             try{Thread.sleep(INTERVAL);
             }catch ( InterruptedException e ){}
-       }  
+//       }  
     }
     
 //    相关参数的获取
@@ -160,5 +167,18 @@ public class BackgroundPanel extends JPanel{
     
     public int getBirdNum(){
         return birdNum;
+    }
+    
+    public void setBirdNum(){
+        birdNum--;
+    }
+
+    public int getBirdsIndex() {
+        return BirdsIndex;
+    }
+    
+    public void setBirdIndex(){
+        if(BirdsIndex < birdsList.size() - 1)
+            BirdsIndex ++;
     }
 }

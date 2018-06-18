@@ -17,8 +17,8 @@ public class Birds{
     
     private static int x, y, vx, vy;//鸟最左上角的点运动到当前位置的横坐标、纵坐标、水平速度、垂直速度
     private static int id;//鸟的编号
-    private Image birdsImg;//鸟的图片
-    private boolean isShot = false;
+    private static Image birdsImg;//鸟的图片
+    private static boolean isShot;
     
 //    构造函数，初始化参数
     public Birds(int id){
@@ -29,6 +29,7 @@ public class Birds{
         this.vy = rand.nextInt(16)+8;
         this.birdsImg = new ImageIcon("src/resources/bird.png").getImage();
         this.id = id;
+        this.isShot = false;
     }
     
     public void fly(){

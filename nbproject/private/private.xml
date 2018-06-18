@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/陈志祥/南邮/JAVA/BirdsShot/src/birdsshot/BackgroundPanel.java</file>
-            <file>file:/F:/陈志祥/南邮/JAVA/BirdsShot/src/birdsshot/Birds.java</file>
-            <file>file:/F:/陈志祥/南邮/JAVA/BirdsShot/src/birdsshot/BirdsShot.java</file>
-            <file>file:/F:/陈志祥/南邮/JAVA/BirdsShot/src/birdsshot/StartButton.java</file>
+            <file>file:/F:/陈志祥/南邮/JAVA/BirdsShot/src/pers/xiang/birdsshot/BirdsShotGame.java</file>
+            <file>file:/F:/陈志祥/南邮/JAVA/BirdsShot/src/pers/xiang/birdsshot/Flying.java</file>
+            <file>file:/F:/陈志祥/南邮/JAVA/BirdsShot/src/pers/xiang/birdsshot/BackgroundPanel.java</file>
+            <file>file:/F:/陈志祥/南邮/JAVA/BirdsShot/src/pers/xiang/birdsshot/Birds.java</file>
         </group>
     </open-files>
 </project-private>
