@@ -32,7 +32,7 @@ public class BirdsShotGame extends JFrame{
         this.setLocationRelativeTo(null);//居中  
         this.setTitle("JavaGame-BirdsShot");  
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setIconImage(new ImageIcon("src/resources/icon.png").getImage());
+        this.setIconImage(new ImageIcon("src/resources/images/icon.png").getImage());
         
         this.add(bg);
         this.setVisible(true);        

@@ -18,20 +18,23 @@ public class Birds{
     private static int x, y, vx, vy;//鸟最左上角的点运动到当前位置的横坐标、纵坐标、水平速度、垂直速度
     private static int id;//鸟的编号
     private static Image birdsImg;//鸟的图片
-    private static boolean isShot;
+    private static boolean isShot;//判断鸟是否被击中的标记
     
 //    构造函数，初始化参数
     public Birds(int id){
         Random rand = new Random();
-        this.x = -70;
-        this.y = rand.nextInt(400)+1;
-        this.vx = rand.nextInt(20)+5;
-        this.vy = rand.nextInt(16)+8;
-        this.birdsImg = new ImageIcon("src/resources/bird.png").getImage();
-        this.id = id;
-        this.isShot = false;
+        this.x = -70;//飞鸟从屏幕最左侧飞出
+        
+//        飞鸟出现点的纵坐标、飞行的速度均为随机的
+        this.y = rand.nextInt(400)+1;//【1，400】
+        this.vx = rand.nextInt(20)+5;//【5，25】
+        this.vy = rand.nextInt(16)+8;//【8，24】
+        this.birdsImg = new ImageIcon("src/resources/images/bird.png").getImage();
+        this.id = id;//编号
+        this.isShot = false;//生成鸟时，初始化其未被击中
     }
     
+//    使用 正弦函数曲线 作为飞行轨迹
     public void fly(){
         if(x <= 1000){
             x += vx;
