@@ -10,6 +10,8 @@ import java.applet.AudioClip;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -26,43 +28,48 @@ import javax.swing.JPanel;
  */
 public class BackgroundPanel extends JPanel{
 
-    public static JButton start;//开始按钮    
-    public static int score = 0;//分数
-    public static int bullets = 0;//子弹数
-    
-    private static AudioClip gunfire;//枪声
-    private static int birdNum;//当前剩余飞鸟的数量
-    private static int totalBirds;//飞鸟总数
-    private static int mx = 0;//鼠标点击处的横坐标
-    private static int my = 0;//鼠标点击处的纵坐标
-
-    private static Birds bird;//飞鸟
-    private static int BirdsIndex = 0;//飞鸟数组的索引
-    
-    private int state;//游戏的当前状态
     private static final int START = 0;//开启游戏
     private static final int RUNNING = 1;//游戏中
     private static final int GAME_OVER = 2;//游戏失败
-    private static int INTERVAL = 50;//时间间隔（ms)
-    private static final int BIRDS_MAX_NUM = 5;//飞鸟最大数目，用于初始化birdNum和total
+    private static final int INTERVAL = 50;//时间间隔（ms)
+    private static final int BIRDS_MAX_NUM = 50;//飞鸟最大数目常量，用于初始化birdNum和total
+    private static final int BULLETS = 100;//子弹数常量，用于初始化bullets
+        
+    public static int bullets = 0;//子弹数
+    public static int score = 0;//分数
+    public static JButton start;//开始按钮
+    
+    private static Birds bird;//飞鸟
+    private static int birdNum;//当前剩余飞鸟的数量
+    private static int totalBirds;//飞鸟总数
+    private static int BirdsIndex = 0;//飞鸟数组的索引
+    
+    private static AudioClip gunfire;//枪声
+    private static int mx = 0;//鼠标点击处的横坐标
+    private static int my = 0;//鼠标点击处的纵坐标
+    
+    private int state;//游戏的当前状态
     
     public BackgroundPanel(){
   
-//        初始化面板
+//        初始化面板，光标设为自定义的瞄准十字
         this.setLayout(null);
         this.setOpaque(true);
         this.setBounds(0, 0, 1000, 640);
+        try {
+            Cursor coursor = Toolkit.getDefaultToolkit().createCustomCursor(new ImageIcon("src/resources/images/aim.png").getImage(),new Point(10,20), "stick");
+            this.setCursor(coursor);   
+        } catch (Exception e) {}
         
 //        开始按钮
         start = new JButton();
         start.setBounds(410, 260, 168, 168);
         start.setBorderPainted(false);
         start.setIcon(new ImageIcon("src/resources/images/start.png"));
-        start.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.add(start); 
         
         state = START;//设置游戏状态为“开启游戏”
-
+        
         try {
             File file1 = new File("src/resources/music/gunfire.wav");
             gunfire = Applet.newAudioClip(file1.toURL());
@@ -76,16 +83,17 @@ public class BackgroundPanel extends JPanel{
 //                    音频时长为一秒钟，为防止高速点击时无法让每次点击都产生枪声，必须先stop，再play
                     gunfire.stop();
                     gunfire.play();
-                }finally{
+                }finally{    
                     System.out.println("Running.");
+                    
                     state = RUNNING;//程序状态修改为“游戏中”
                     start.setVisible(false);//隐藏开始按钮
-                    bullets = 10;//初始化子弹数目
+                    bullets = BULLETS;//初始化子弹数目
                     score = 0;//重置分数为0分
                     birdNum = BIRDS_MAX_NUM;//剩余飞鸟数
                     totalBirds = BIRDS_MAX_NUM;//飞鸟总数
                     BirdsIndex = 0;//从第一只开始飞
-
+                    
                     addBirds();//加入飞鸟线程   
                 }
             }
@@ -131,7 +139,7 @@ public class BackgroundPanel extends JPanel{
 //        基础绘制，绘制背景和右上角的记分板
         g.drawImage((new ImageIcon("src/resources/images/background.jpg")).getImage(), 0, 0, this);
         g.setFont(new Font("Microsoft YaHei", Font.BOLD, 25));
-        g.drawString("得分: " + score + "  剩余子弹：" + bullets + "  剩余飞鸟：" + birdNum, 580, 50);
+        g.drawString("得分: " + score + "  剩余子弹：" + bullets + "  剩余飞鸟：" + birdNum, 540, 50);
         
 //        当处于“游戏中”状态时，绘制飞鸟
         if(state == RUNNING){
@@ -150,6 +158,7 @@ public class BackgroundPanel extends JPanel{
     
 //    创建飞鸟线程
     public void addBirds() {
+        
         bird = new Birds(BirdsIndex);
         Flying f = new Flying(bird, bullets, this);
         Thread t = new Thread(f);

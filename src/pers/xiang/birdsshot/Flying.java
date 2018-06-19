@@ -27,8 +27,7 @@ public class Flying implements Runnable{
     }
     
     @Override
-    public void run() {
-        
+    public void run() {       
 //        System.out.println("First bird: Vx = " + thisBird.getVx() + "," + "Vy = " + thisBird.getVy() + ", x = " + thisBird.getX() + ", y = " + thisBird.getY());//在控制台输出飞鸟的速度
         
         try{
