@@ -59,11 +59,21 @@ public class Flying implements Runnable{
                         
                     //飞鸟被击中了
                     }else{
+                        
+//                        飞鸟未飞出屏幕或未落地
+                        if(thisBird.getX() <= comp.getWidth() && thisBird.getY() <= comp.getHeight()){
+                           thisBird.drop();
+                           comp.repaint();
+                           Thread.sleep(INTERVAL); 
+                        
+//                        飞鸟飞出屏幕或落地了
+                        }else {
                             comp.setBirdIndex();
                             comp.setBirdNum();
                             comp.repaint();//重悔
                             thisBird = new Birds(comp.getBirdsIndex());
-                            continue; 
+                            continue;    
+                        }
                     }
                     
                 //没子弹了 或 没有剩余飞鸟了  Game over界面  

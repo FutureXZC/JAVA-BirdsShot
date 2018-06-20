@@ -19,6 +19,7 @@ public class Birds{
     private static int id;//鸟的编号
     private static Image birdsImg;//鸟的图片
     private static boolean isShot;//判断鸟是否被击中的标记
+    private static int t;//飞鸟下落的时间标记
     
 //    构造函数，初始化参数
     public Birds(int id){
@@ -27,11 +28,12 @@ public class Birds{
         
 //        飞鸟出现点的纵坐标、飞行的速度均为随机的
         this.y = rand.nextInt(400)+1;//【1，400】
-        this.vx = rand.nextInt(20)+5;//【5，25】
-        this.vy = rand.nextInt(16)+8;//【8，24】
+        this.vx = rand.nextInt(16)+5;//【5，21】
+        this.vy = rand.nextInt(15)+8;//【8，23】
         this.birdsImg = new ImageIcon("src/resources/images/bird.png").getImage();
         this.id = id;//编号
         this.isShot = false;//生成鸟时，初始化其未被击中
+        this.t = 1;
     }
     
 //    使用 正弦函数曲线 作为飞行轨迹
@@ -41,6 +43,17 @@ public class Birds{
         }
         if(y <= 640){
             y += Math.sin(x) * vy;
+        }
+    }
+    
+//    使用 平抛曲线 作为飞鸟被击落的轨迹
+    public void drop(){
+        if(x <= 1000){
+            x += vx;
+        }
+        if (y <= 640){
+            y += t * 9.8;
+            t++;
         }
     }
     
