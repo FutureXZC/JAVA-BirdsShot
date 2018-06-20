@@ -101,9 +101,7 @@ public class BackgroundPanel extends JPanel{
         
 //        鼠标点击事件监听，即“射击动作”
         this.addMouseListener(new MouseAdapter(){
-            public void mouseClicked(MouseEvent e){
-                
-                if(e.getButton() == MouseEvent.BUTTON1){ //鼠标左键单击时
+            public void mousePressed(MouseEvent e){
                     
                     try{
 //                    音频时长为一秒钟，为防止高速点击时无法让每次点击都产生枪声，必须先stop，再play
@@ -126,7 +124,6 @@ public class BackgroundPanel extends JPanel{
                         System.out.println("Click: mx = " + mx + "," + "my = " + my + ", isShot = " + bird.getIsShot());
                         }
                     }                 
-                }
             }
         });
         System.out.println("Start.");
@@ -135,7 +132,7 @@ public class BackgroundPanel extends JPanel{
 //    绘制背景、记分板、飞鸟、GAMEOVER图标
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        
+
 //        基础绘制，绘制背景和右上角的记分板
         g.drawImage((new ImageIcon("src/resources/images/background.jpg")).getImage(), 0, 0, this);
         g.setFont(new Font("Microsoft YaHei", Font.BOLD, 25));

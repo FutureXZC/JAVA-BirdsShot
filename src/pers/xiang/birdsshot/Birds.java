@@ -28,8 +28,8 @@ public class Birds{
         
 //        飞鸟出现点的纵坐标、飞行的速度均为随机的
         this.y = rand.nextInt(400)+1;//【1，400】
-        this.vx = rand.nextInt(16)+5;//【5，21】
-        this.vy = rand.nextInt(15)+8;//【8，23】
+        this.vx = rand.nextInt(23)+5;//【5，28】
+        this.vy = rand.nextInt(17)+8;//【8，25】
         this.birdsImg = new ImageIcon("src/resources/images/bird.png").getImage();
         this.id = id;//编号
         this.isShot = false;//生成鸟时，初始化其未被击中
